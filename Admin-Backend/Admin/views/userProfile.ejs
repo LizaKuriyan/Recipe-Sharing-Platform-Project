@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Profile</title>
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background-color:#fff6ee;
+}
+
+/* NAVBAR */
+
+.navbar{
+background:linear-gradient(to right,#ffddb8,#ffc184);
+padding:15px 40px;
+box-shadow:0 2px 8px rgba(255,140,0,0.25);
+}
+
+.logo{
+color:#9a4200;
+font-size:30px;
+font-weight:bold;
+font-style:italic;
+}
+
+.navcontent a{
+color:#7a3300;
+padding:10px 14px;
+text-decoration:none;
+font-weight:600;
+border-radius:6px;
+}
+
+.navcontent a:hover{
+background-color:#ffb76b;
+}
+
+.logoutbutton{
+background-color:#ff9f43;
+border:none;
+color:#5a2500;
+padding:9px 16px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* TITLE */
+
+h2{
+margin-top:25px;
+color:#9a4200;
+font-family:'Times New Roman', Times, serif;
+font-weight:900;
+font-size:34px;
+font-style: italic;
+text-align:center;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+width:80%;
+margin:30px auto;
+background:#ffffff;
+padding:30px 40px;
+border-radius:12px;
+box-shadow:0 4px 14px rgba(255,165,0,0.15);
+}
+
+/* HEADER */
+
+.container-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.back-btn{
+background-color:#ffe0c2;
+border:none;
+color:#7a3300;
+padding:8px 16px;
+border-radius:6px;
+cursor:pointer;
+font-weight:700;
+}
+
+.back-btn:hover{
+background-color:#ffb76b;
+}
+
+/* PROFILE INFO */
+
+.profile-info{
+color:#5c3a20;
+font-family:'Times New Roman', Times, serif;
+font-size:20px;
+font-weight:600;
+}
+
+.profile-info p{
+margin:10px 0;
+}
+
+.profile-info strong{
+color:#9a4200;
+}
+
+/* RECIPE BOX */
+
+.recipe-box{
+margin-top:30px;
+background:linear-gradient(to bottom,#fff4ea,#ffe2c7);
+padding:25px;
+border-radius:14px;
+box-shadow:0 4px 12px rgba(255,140,0,0.18);
+}
+
+.recipe-box ul{
+padding-left:25px;
+}
+
+.recipe-box li{
+margin:10px 0;
+font-weight:600;
+}
+
+.recipe-box a{
+text-decoration:none;
+color:#5c3a20;
+}
+
+/* PAGINATION */
+
+.pagination{
+text-align:center;
+margin-top:25px;
+justify-content: center;
+}
+
+.pagination span{
+display:inline-block;
+margin:5px 6px;
+padding:8px 14px;
+border-radius:8px;
+background-color:#ffe0c2;
+color:#7a3300;
+cursor:pointer;
+font-weight:600;
+}
+
+.pagination .active{
+background-color:#ff9f43;
+color:#5a2500;
+font-weight:bold;
+}
+
+/* ACTION BUTTON */
+
+.action-buttons{
+margin:30px auto;
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+.block-btn{
+padding:10px 24px;
+border-radius:6px;
+font-weight:700;
+cursor:pointer;
+font-family:'Times New Roman', Times, serif;
+border:none;
+}
+
+.block{
+background-color:#d9822b;
+color:#fff;
+}
+
+.unblock{
+background-color:#ffb76b;
+color:#5a2500;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.container{
+width:95%;
+padding:20px;
+}
+
+.profile-info{
+font-size:18px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg">
+
+<div class="container-fluid">
+
+<span class="logo">RECIPEbox</span>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+
+<div class="navcontent d-flex flex-column flex-lg-row gap-3 align-items-lg-center mt-3 mt-lg-0">
+
+<a href="/admin/home">Home</a>
+<a href="/admin/viewusers">View Users</a>
+<a href="/admin/mostviewed">Most Viewed Recipes</a>
+<a href="/admin/logout" class="logoutbutton">Logout</a>
+</div>
+</div>
+</div>
+</nav>
+
+<h2>User Profile</h2>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="container-header">
+
+<a href="/admin/viewusers?page=<%= currentPage %>">
+<button class="back-btn">← Back</button>
+</a>
+
+</div>
+
+<!-- USER INFO -->
+
+<div class="profile-info">
+
+<p><strong><i>Name:</i></strong> <i><%= user.name %></i></p>
+
+<p>
+<strong><i>No. of Recipes Added:</i></strong>
+<i><%= recipes.length %></i>
+</p>
+
+<p>
+<strong><i></i>Status:</strong> <%= user.status %>
+</p>
+
+</div>
+
+<!-- RECIPES -->
+
+<div class="recipe-box">
+
+<p style="color:#9a4200;font-weight:600;"><i>Recipes List:</i></p>
+
+<ul>
+
+<% if(recipes.length === 0){ %>
+
+<li>No recipes added yet</li>
+
+<% } %>
+
+<% recipes.forEach(function(recipe){ %>
+
+<li>
+<a href="/admin/viewrecipe/<%= recipe._id %>?page=<%= currentPage %>&from=userprofile&userid=<%= user._id %>">
+    <%= recipe.title %>
+</a>
+</li>
+
+<% }) %>
+
+</ul>
+
+<!-- PAGINATION -->
+
+<div class="pagination">
+
+<% if(currentPage > 1){ %>
+
+<a href="/admin/userprofile/<%= user._id %>?page=<%= currentPage - 1 %>">
+<span>&laquo;</span>
+</a>
+
+<% } %>
+
+<% for(let i = 1; i <= totalPages; i++){ %>
+
+<a href="/admin/userprofile/<%= user._id %>?page=<%= i %>">
+<span class="<%= currentPage === i ? 'active' : '' %>"><%= i %></span>
+</a>
+
+<% } %>
+
+<% if(currentPage < totalPages){ %>
+
+<a href="/admin/userprofile/<%= user._id %>?page=<%= currentPage + 1 %>">
+<span>&raquo;</span>
+</a>
+
+<% } %>
+
+</div>
+
+</div>
+</div>
+
+<!-- BLOCK / UNBLOCK BUTTON -->
+
+<div class="action-buttons">
+
+<% if(user.status === "Unblocked"){ %>
+
+<form action="/admin/blockuser/<%= user._id %>" method="POST">
+<button type="submit" class="block-btn block">Block User</button>
+</form>
+
+<% } else { %>
+
+<form action="/admin/unblockuser/<%= user._id %>" method="POST">
+<button type="submit" class="block-btn unblock">Unblock User</button>
+</form>
+
+<% } %>
+
+</div>
+
+<!-- BOOTSTRAP JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

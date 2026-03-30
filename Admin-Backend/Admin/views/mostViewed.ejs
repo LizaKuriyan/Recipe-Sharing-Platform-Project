@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Most Viewed Recipes</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff6ee;
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            background: linear-gradient(to right, #ffddb8, #ffc184);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            height: 85px;
+            box-shadow: 0 2px 8px rgba(255, 140, 0, 0.25);
+        }
+
+        .logo {
+            color: #9a4200;
+            font-size: 30px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .navcontent {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #7a3300;
+            padding: 14px 18px;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .navbar a:hover {
+            background-color: #ffb76b;
+        }
+
+        .logoutbutton {
+            background-color: #ff9f43;
+            border: none;
+            color: #5a2500;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        /* ================= PAGE TITLE ================= */
+        h2 {
+            margin-top: 25px;
+            color: #9a4200;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(255, 165, 0, 0.15);
+        }
+
+        /* ================= HEADER INSIDE CONTAINER ================= */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+
+        }
+
+        .page-header h3 {
+            color: #9a4200;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 20px;
+            font-weight: 900;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .back-btn {
+            padding: 8px 18px;
+            background-color: #ffb76b;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #5a2500;
+        }
+
+        .back-btn:hover {
+            background-color: #ff9f43;
+        }
+
+        /* ================= TABLE ================= */
+        .recipe-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .recipe-table th {
+            background-color: #ffddb8;
+            color: #7a3300;
+            padding: 14px;
+            text-align: left;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 18px;
+        }
+
+        .recipe-table td {
+            padding: 14px;
+            border-bottom: 1px solid #ffd2a6;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: #5c3a20;
+        }
+
+        .recipe-table tr:hover {
+            background-color: #fff2e6;
+        }
+        .recipe-link{
+            text-decoration:none;
+            color:#7a3300;
+            font-weight:600;
+        }
+
+        .recipe-link:hover{
+             color:#ff8c1a;
+             text-decoration:underline;
+        }
+        /* ================= PAGINATION ================= */
+        .pagination {
+             text-align: center;
+             margin-top: 30px;
+        }
+
+        .pagination a{
+             text-decoration:none;
+             display:inline-block;
+        }
+
+        .pagination span {
+             display: inline-block;
+             margin: 5px 6px;
+             padding: 9px 15px;
+             border-radius: 8px;
+             background-color: #ffe0c2;
+             color: #7a3300;
+             cursor: pointer;
+             font-weight: 600;
+        }
+
+        .pagination .active {
+             background-color: #ff9f43;
+             color: #5a2500;
+             font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <div class="navbar">
+        <div class="logo">RECIPEbox</div>
+        <div class="navcontent">
+            <a href="home">Home</a>
+            <a href="viewUsers">View Users</a>
+            <a href="mostViewed">Most Viewed Recipes</a>
+            <a href="/admin/logout" class="logoutbutton">Logout</a>        
+        </div>
+        </div>
+
+    <!-- ================= PAGE TITLE ================= -->
+    <h2>Most Viewed Recipe Page</h2>
+
+    <!-- ================= CONTENT ================= -->
+    <div class="container">
+        <div class="page-header">
+            <h3>Most Viewed Recipes</h3>
+            <a href="home" class="back-btn">Back</a>
+        </div>
+
+    <table class="recipe-table">
+
+     <tr>
+        <th>Recipe Name</th>
+        <th>Creator Name</th>
+        <th>Views Count</th>
+     </tr>
+
+     <% recipes.forEach(function(recipe){ %>
+
+     <tr>
+
+      <td>
+       <a href="/admin/viewrecipe/<%= recipe._id %>?from=mostviewed&page=<%= currentPage %>" class="recipe-link">
+       <%= recipe.title %></a>
+      </td>
+
+      <td><%= recipe.creator.name %></td>
+
+      <td><%= recipe.views %></td>
+
+     </tr>
+
+     <% }) %>
+
+    </table>
+
+    <div class="pagination">
+     <% if(currentPage > 1){ %>
+<a href="/admin/mostviewed?page=<%= currentPage - 1 %>">
+<span>&laquo;</span>
+</a>
+<% } %>
+
+<% for(let i = 1; i <= totalPages; i++){ %>
+
+      <a href="/admin/mostviewed?page=<%= i %>">
+       <span class="<%= currentPage === i ? 'active' : '' %>"><%= i %></span>
+      </a>
+     <% } %>
+
+     <% if(currentPage < totalPages){ %>
+      <a href="/admin/mostviewed?page=<%= currentPage + 1 %>">
+       <span>&raquo;</span>
+      </a>
+    <% } %>
+    </div>
+    </div>
+
+</body>
+</html>
