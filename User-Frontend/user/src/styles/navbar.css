@@ -1,0 +1,60 @@
+.custom-navbar {
+  background: linear-gradient(135deg, #ffd54f, #ffca28, #ffc107);
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 15px;
+}
+
+.navbar-brand {
+  color: #5a2500;
+  font-style: italic;
+  font-size: 30px;
+  transition: none;
+}
+
+/* Remove hover effect on brand */
+.navbar-brand:hover {
+  color: #5a2500;
+}
+
+/* Links */
+.nav-link {
+  font-weight: 600;
+  font-size: medium;
+  color: #5a2500;
+  transition: 0.3s;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+/* Link Hover */
+.nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #3e1c00;
+}
+
+/* Links Container */
+.links {
+  display: flex;
+  align-items: center;
+  font-size: large;
+}
+
+/* Logout Button */
+.logout-btn {
+  margin-left: 20px;
+  background-color: #5a2500;
+  color: white;
+  border: none;
+  padding: 6px 18px;
+  border-radius: 10px;
+  font-weight: lighter;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* Logout Hover */
+.logout-btn:hover {
+  background-color: #3e1c00;
+  transform: scale(1.05);
+}

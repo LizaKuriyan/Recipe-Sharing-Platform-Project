@@ -1,0 +1,52 @@
+/* Table Container */
+.container h3{
+  color: #5a2500;
+  font-style: italic;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 530;
+}
+.container table{
+  font-family: 'Times New Roman', Times, serif;
+  font-style: italic;
+  font-size: large;
+}
+.custom-table {
+  background: #fffdf5;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Table Header */
+.custom-table th {
+  background: linear-gradient(135deg, #ffd54f, #ffca28, #ffc107);
+  color: #5a2500;
+  text-align: center;
+  font-weight: 600;
+  padding: 12px;
+}
+
+/* Table Data */
+.custom-table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px;
+  color: #5a2500;
+}
+
+/* Button */
+.custom-btn {
+  background-color: #5a2500 !important;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.active-page {
+  background-color: #f9a825; 
+  color: black;
+
+}

@@ -42,7 +42,9 @@ router.post('/signup', async (req, res) => {
     await newUser.save();
 
     res.status(201).json({ message: "Account created successfully" });
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -60,7 +62,9 @@ router.post('/login', async (req, res) => {
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -70,10 +74,13 @@ router.post('/login', async (req, res) => {
 // GET MY RECIPES (LOGGED-IN USER)
 // ===============================
 router.get('/my-recipes', authMiddleware, async (req, res) => {
-  try {
+  try 
+  {
     const myRecipes = await Recipe.find({ creator: req.user._id }).select('title views createdAt').sort({ createdAt: -1 });
     res.status(200).json(myRecipes);
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
@@ -83,11 +90,14 @@ router.get('/my-recipes', authMiddleware, async (req, res) => {
 // GET SINGLE RECIPE (LOGGED-IN USER)
 // ===============================
 router.get('/my-recipes/:id', authMiddleware, async (req, res) => {
-  try {
+  try 
+  {
     const recipe = await Recipe.findOne({ _id: req.params.id, creator: req.user._id });
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
     res.status(200).json(recipe);
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -97,11 +107,14 @@ router.get('/my-recipes/:id', authMiddleware, async (req, res) => {
 // DELETE RECIPE
 // ===============================
 router.delete('/delete-recipe/:id', authMiddleware, async (req, res) => {
-  try {
+  try 
+  {
     const recipe = await Recipe.findOneAndDelete({ _id: req.params.id, creator: req.user._id });
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
     res.status(200).json({ message: "Recipe deleted successfully" });
-  } catch (error) {
+  } 
+  catch (error)
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -111,11 +124,14 @@ router.delete('/delete-recipe/:id', authMiddleware, async (req, res) => {
 // UPDATE RECIPE
 // ===============================
 router.put('/update-recipe/:id', authMiddleware, async (req, res) => {
-  try {
+  try 
+  {
     const updatedRecipe = await Recipe.findOneAndUpdate({ _id: req.params.id, creator: req.user._id }, req.body, { new: true });
     if (!updatedRecipe) return res.status(404).json({ message: "Recipe not found" });
     res.status(200).json({ message: "Recipe updated successfully" });
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -133,7 +149,9 @@ router.post('/addrecipe', authMiddleware, async (req, res) => {
     const newRecipe = new Recipe({ title, image, ingredients, steps, cookingTime, difficultyLevel, creator: req.user._id });
     await newRecipe.save();
     res.status(201).json({ message: "Recipe added successfully" });
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -147,7 +165,9 @@ router.get('/me', authMiddleware, async (req, res) => {
     const user = await User.findById(req.user._id).select("name email status");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -166,7 +186,9 @@ router.put('/change-password', authMiddleware, async (req, res) => {
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
     res.status(200).json({ message: "Password updated successfully" });
-  } catch (err) {
+  } 
+  catch (err) 
+  {
     console.error(err);
     res.status(500).json({ message: "Server Error" });
   }
@@ -190,7 +212,9 @@ router.post('/forgot-password', async (req, res) => {
     await user.save();
 
     res.status(200).json({ message: "Password reset token generated.", resetToken });
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -203,7 +227,9 @@ router.get('/all-recipes', async (req, res) => {
   try {
     const recipes = await Recipe.find().populate('creator', 'name').sort({ createdAt: -1 });
     res.status(200).json(recipes);
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -217,7 +243,9 @@ router.get('/recipe/:id', async (req, res) => {
     const recipe = await Recipe.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } }, { new: true }).populate('creator', 'name');
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
     res.status(200).json(recipe);
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }

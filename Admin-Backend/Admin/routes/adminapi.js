@@ -107,62 +107,58 @@ router.get('/viewusers',adminAuth, async function(req, res) {
 });
 
 /* user profile */
-router.get('/userprofile/:id',adminAuth, async function(req, res) {
+router.get('/userprofile/:id', adminAuth, async function(req, res) {
 
   try {
     const userId = req.params.id;
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
     const skip = (page - 1) * limit;
+
     const user = await User.findById(userId);
     if (!user) {
       return res.send("User not found");
     }
+    const mongoose = require("mongoose");
+
     const recipes = await Recipe.find({ creator: userId })
+      .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: -1 });
-
-    const totalRecipes = await Recipe.countDocuments({ creator: userId });
+      .limit(limit);
+      const totalRecipes = await Recipe.countDocuments({ creator: userId });   
     const totalPages = Math.ceil(totalRecipes / limit);
-
     res.render("userProfile", {
       user,
       recipes,
+      totalRecipes,
       currentPage: page,
       totalPages
     });
-
-  } 
-  
+  }
   catch (error) {
-    console.log(error);
+    console.log("ERROR:", error);
     res.status(500).send("Server Error");
   }
-
 });
 
 /*block user */
 router.post("/blockuser/:id",adminAuth, async function(req, res) {
 
   try {
-
     const userId = req.params.id;
-
     await User.findByIdAndUpdate(userId, {
       status: "Blocked"
     });
     
-    // Check if the user has an active session
-    // If using default memory store, you can destroy by session id
-    // If using MongoStore, destroy sessions associated with that user
     const sessionStore = req.sessionStore;
-
     sessionStore.all((err, sessions) => {
-      if (!err && sessions) {
-        for (let sid in sessions) {
+      if (!err && sessions) 
+      {
+        for (let sid in sessions) 
+        {
           const sessionData = sessions[sid];
-          if (sessionData.userId === userId) {
+          if (sessionData.userId === userId)
+          {
             sessionStore.destroy(sid, (err) => {
               if (err) console.log("Error destroying user session:", err);
             });
@@ -171,45 +167,36 @@ router.post("/blockuser/:id",adminAuth, async function(req, res) {
       }
     });
     res.redirect("/admin/userprofile/" + userId);
-
   } 
   
   catch (error) {
-
     console.log(error);
     res.send("Error blocking user");
-
   }
-
 });
 
 /* unblock user */
 router.post("/unblockuser/:id",adminAuth, async function(req, res) {
 
   try {
-
     const userId = req.params.id;
-
     await User.findByIdAndUpdate(userId, {
       status: "Unblocked"
     });
 
     res.redirect("/admin/userprofile/" + userId);
-
   } 
   
   catch (error) {
-
     console.log(error);
     res.send("Error unblocking user");
-
   }
-
 });
 
 // GET recipe detail page
 router.get('/viewrecipe/:id',adminAuth, async (req, res) => {
-    try {
+    try 
+    {
         const recipe = await Recipe.findById(req.params.id).populate('creator'); 
         if(!recipe){
             return res.status(404).send("Recipe not found");
@@ -231,7 +218,6 @@ router.get('/viewrecipe/:id',adminAuth, async (req, res) => {
 router.get('/mostviewed',adminAuth, async function(req, res) {
 
   try {
-
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
     const skip = (page - 1) * limit;
@@ -243,7 +229,6 @@ router.get('/mostviewed',adminAuth, async function(req, res) {
       .limit(limit);
 
     const totalRecipes = await Recipe.countDocuments();
-
     const totalPages = Math.ceil(totalRecipes / limit);
 
     res.render("mostViewed", {
@@ -274,6 +259,5 @@ router.get('/logout', function(req, res) {
   });
 
 });
-
 
 module.exports = router;

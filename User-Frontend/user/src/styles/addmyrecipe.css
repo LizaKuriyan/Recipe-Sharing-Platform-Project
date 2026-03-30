@@ -1,0 +1,47 @@
+.add-recipe-container {
+  min-height: 100vh;
+  padding-top: 40px;
+}
+.add-recipe-container h2{
+  color: #5a2500;
+  font-style: italic;
+  font-family:'Times New Roman', Times, serif ;
+  font-weight: 530;
+}
+
+.add-recipe-container label{
+  color: #5a2500;
+  font-style: italic;
+  font-family:'Times New Roman', Times, serif ;
+  font-weight: 530;
+}
+
+.add-recipe-card {
+  background: linear-gradient(to right, #fff176, #ffd54f);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.upload-box {
+  height: 150px;
+  border: 2px dashed #fbc02d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #fffde7;
+  border-radius: 8px;
+}
+
+.add-btn {
+  background-color: #fbc02d;
+  color: black;
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.add-btn:hover {
+  background-color: #f9a825;
+}
